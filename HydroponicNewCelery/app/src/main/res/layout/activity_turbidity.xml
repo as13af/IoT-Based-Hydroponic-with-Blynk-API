@@ -4,19 +4,19 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/humidityValueTextView"
+        android:id="@+id/turbidityValueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/humidity_placeholder"
+        android:text="@string/turbidity_label_placeholder"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/updateHumidityButton"
+        android:id="@+id/updateTurbidityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/humidityValueTextView"
+        android:layout_below="@id/turbidityValueTextView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="@string/update_humidity_data" />
+        android:text="@string/update_turbidity_data_button" />
 </RelativeLayout>

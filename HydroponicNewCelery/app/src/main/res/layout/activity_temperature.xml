@@ -3,45 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
+    <TextView
+        android:id="@+id/temperatureValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/temperature_label"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
     <Button
-        android:id="@+id/sendTemperatureButton"
+        android:id="@+id/updateTemperatureButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_send_temperature"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
 
-    <TextView
-        android:id="@+id/temperatureTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/current_temperature"
-        android:layout_below="@id/sendTemperatureButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
-
-    <SeekBar
-        android:id="@+id/temperatureSeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/temperatureTextView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
-
-    <ProgressBar
-        android:id="@+id/temperatureProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/temperatureSeekBar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:visibility="invisible"/>
     <Button
-        android:id="@+id/updateTemperatureButton"
+        android:id="@+id/updateTemperatureStatusButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/update_temperature"/>
+        android:text="@string/button_update_temperature_status"
+        android:layout_below="@id/updateTemperatureButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/updateWaterTemperatureStatusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_update_water_temperature_status"
+        android:layout_below="@id/updateTemperatureStatusButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
 
 
 
@@ -49,9 +46,9 @@
         android:id="@+id/weatherImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_below="@id/temperatureProgressBar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_weather_sunny"
         android:contentDescription="@string/weather_icon_description"/>
+
 </RelativeLayout>

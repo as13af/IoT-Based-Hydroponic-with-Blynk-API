@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -20,11 +21,29 @@
         android:layout_marginTop="16dp" />
 
     <Button
+        android:id="@+id/turbidityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Turbidity"
+        android:layout_below="@id/humidityButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/phButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pH"
+        android:layout_below="@id/turbidityButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <Button
         android:id="@+id/sensorsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sensors"
-        android:layout_below="@id/humidityButton"
+        android:layout_below="@id/phButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 

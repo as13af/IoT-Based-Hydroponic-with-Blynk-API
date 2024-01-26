@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">HydroponicNewCelery</string>
 
+    <string name="temperature_label">Temperature: </string>
+
+    <string name="humidity_placeholder">Humidity: -- %</string>
+    <string name="update_humidity_data">Update Humidity Data</string>
+
     <string name="open_temperature">Open Temperature</string>
     <string name="open_humidity">Open Humidity</string>
     <string name="open_ultrasonic">Open Ultrasonic</string>
@@ -8,8 +13,40 @@
     <string name="button_send_temperature">Send Temperature Data</string>
     <string name="button_send_humidity">Send Humidity Data</string>
     <string name="button_send_ultrasonic">Send Ultrasonic Data</string>
-        <string name="current_temperature">Current Temperature: 25°C</string>
+
+    <string name="turbidity_value_format">Turbidity: %.2f NTU</string>
+    <string name="turbidity_label_placeholder">Turbidity: N/A</string>
+    <string name="update_turbidity_data_button">Update Turbidity Data</string>
+    <string name="api_error_message_format">Handle Unsuccessful: %d - %s</string>
+    <string name="api_failure_message">Failed to connect to Blynk API</string>
+    <string name="blynk_api_tag">Blynk API</string>
+    <string name="water_level_status_label">Water Level Status:</string>
+
+
+
+
+
+    <string name="turn_on_acid_pump">Turn On Acid Pump</string>
+    <string name="turn_on_base_pump">Turn On Base Pump</string>
+
+
+    <string name="button_update_temperature_status">Update Temperature Status</string>
+    <string name="button_update_water_temperature_status">Update Water Temperature Status</string>
+
+
+    <string name="current_temperature">Current Temperature: 25°C</string>
         <string name="weather_icon_description">Weather Icon</string>
+    <string name="ph_value_placeholder">pH Value: --</string>
+    <string name="update_ph_data_button">Update pH Data</string>
+    <string name="ultrasonic_label">Ultrasonic Value: </string>
+    <string name="update_ultrasonic_button">Update Ultrasonic</string>
+
+
+    <string name="button_temperature">Temperature</string>
+    <string name="button_humidity">Humidity</string>
+    <string name="button_turbidity">Turbidity</string>
+    <string name="button_ph">pH</string>
+    <string name="button_sensors">Sensors</string>
 
         <string name="current_humidity">Current Humidity: 50%</string>
         <string name="humidity_icon_description">Humidity Icon</string>

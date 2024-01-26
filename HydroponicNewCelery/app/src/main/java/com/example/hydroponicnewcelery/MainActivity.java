@@ -14,27 +14,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button temperatureButton = findViewById(R.id.temperatureButton);
-        temperatureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, TemperatureActivity.class));
-            }
-        });
+        temperatureButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, TemperatureActivity.class)));
 
         Button humidityButton = findViewById(R.id.humidityButton);
-        humidityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, HumidityActivity.class));
-            }
-        });
+        humidityButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, HumidityActivity.class)));
+
+        Button turbidityButton = findViewById(R.id.turbidityButton);
+        turbidityButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, TurbidityActivity.class)));
+
+        Button phButton = findViewById(R.id.phButton);
+        phButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, PHActivity.class)));
 
         Button sensorsButton = findViewById(R.id.sensorsButton);
-        sensorsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, UltrasonicActivity.class));
-            }
-        });
+        sensorsButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, UltrasonicActivity.class)));
     }
 }
