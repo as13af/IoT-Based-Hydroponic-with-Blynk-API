@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">HydroponicNewCelery</string>
+
+    <string name="open_temperature">Open Temperature</string>
+    <string name="open_humidity">Open Humidity</string>
+    <string name="open_ultrasonic">Open Ultrasonic</string>
+
+    <string name="button_send_temperature">Send Temperature Data</string>
+    <string name="button_send_humidity">Send Humidity Data</string>
+    <string name="button_send_ultrasonic">Send Ultrasonic Data</string>
+        <string name="current_temperature">Current Temperature: 25°C</string>
+        <string name="weather_icon_description">Weather Icon</string>
+
+        <string name="current_humidity">Current Humidity: 50%</string>
+        <string name="humidity_icon_description">Humidity Icon</string>
+
+        <string name="current_ultrasonic">Ultrasonic Distance: 100 cm</string>
+        <string name="ultrasonic_icon_description">Ultrasonic Icon</string>
+
+    <string name="update_humidity">Update Humidity</string>
+    <string name="update_temperature">Update Temperature</string>
+
+</resources>
