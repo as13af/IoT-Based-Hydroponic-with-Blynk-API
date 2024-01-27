@@ -9,6 +9,9 @@
     <string name="water_level_description">Water Level Button</string>
     <string name="turbidity_description">Turbidity Button</string>
 
+    <string name="menu_temperature">Temperature</string>
+    <string name="menu_ph">pH</string>
+    <string name="menu_humidity">Humidity</string>
 
     <string name="temperature_button_description">Temperature Button</string>
     <string name="ph_button_description">pH Button</string>

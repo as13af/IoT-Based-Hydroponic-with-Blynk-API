@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#87CEFA">
 
+    <!-- Include the common base layout -->
+    <include layout="@layout/activity_base" />
 
+    <ImageView
+        android:id="@+id/weatherImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_weather_sunny"
+        android:contentDescription="@string/weather_icon_description"/>
 
     <TextView
         android:id="@+id/temperatureValueTextView"
@@ -12,6 +23,7 @@
         android:text="@string/temperature_label"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:layout_below="@id/weatherImageView"
         android:layout_marginTop="16dp"/>
 
     <Button
@@ -19,8 +31,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_send_temperature"
+        android:layout_below="@id/temperatureValueTextView"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/updateTemperatureStatusButton"
@@ -39,16 +52,4 @@
         android:layout_below="@id/updateTemperatureStatusButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
-
-
-
-    <ImageView
-        android:id="@+id/weatherImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_weather_sunny"
-        android:contentDescription="@string/weather_icon_description"/>
-
 </RelativeLayout>

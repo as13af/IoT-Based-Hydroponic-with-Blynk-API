@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#87CEFA">
 
+    <!-- Include the common base layout -->
+    <include layout="@layout/activity_base" />
     <!-- Rule 1: Strive for Consistency -->
     <TextView
         android:id="@+id/phValueTextView"

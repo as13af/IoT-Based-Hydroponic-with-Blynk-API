@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_temperature"
+        android:title="@string/menu_temperature"
+        android:icon="@drawable/ic_weather_sunny" />
+
+    <item
+        android:id="@+id/action_ph"
+        android:title="@string/menu_ph"
+        android:icon="@drawable/ic_ph" />
+
+    <item
+        android:id="@+id/action_humidity"
+        android:title="@string/menu_humidity"
+        android:icon="@drawable/ic_humidity_icon" />
+</menu>

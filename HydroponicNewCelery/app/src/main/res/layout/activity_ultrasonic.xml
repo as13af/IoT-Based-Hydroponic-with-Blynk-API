@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#87CEFA">
+    <!-- Include the common base layout -->
+    <include layout="@layout/activity_base" />
+
+    <ImageView
+        android:id="@+id/ultrasonicImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_ultrasonic_icon"
+        android:contentDescription="@string/ultrasonic_icon_description"/>
 
     <TextView
         android:id="@+id/ultrasonicValueTextView"
@@ -9,6 +21,7 @@
         android:layout_height="wrap_content"
         android:text="@string/ultrasonic_label"
         android:textSize="18sp"
+        android:layout_below="@id/ultrasonicImageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"/>
 
@@ -57,23 +70,13 @@
         android:layout_marginTop="16dp"
         android:visibility="invisible"/>
 
-    <ImageView
-        android:id="@+id/ultrasonicImageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@id/ultrasonicProgressBar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_ultrasonic_icon"
-        android:contentDescription="@string/ultrasonic_icon_description"/>
-
     <!-- Added TextView for Water Level Status -->
     <TextView
         android:id="@+id/waterLevelStatusTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/water_level_status_label"
-        android:layout_below="@id/ultrasonicImageView"
+        android:layout_below="@id/ultrasonicProgressBar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"/>
 </RelativeLayout>
