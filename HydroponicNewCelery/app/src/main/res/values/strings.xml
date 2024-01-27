@@ -3,6 +3,19 @@
 
     <string name="temperature_label">Temperature: </string>
 
+    <string name="temperature_description">Temperature Button</string>
+    <string name="ph_description">pH Button</string>
+    <string name="humidity_description">Humidity Button</string>
+    <string name="water_level_description">Water Level Button</string>
+    <string name="turbidity_description">Turbidity Button</string>
+
+
+    <string name="temperature_button_description">Temperature Button</string>
+    <string name="ph_button_description">pH Button</string>
+    <string name="humidity_button_description">Humidity Button</string>
+    <string name="water_level_button_description">Water Level Button</string>
+    <string name="turbidity_button_description">Turbidity Button</string>
+
     <string name="humidity_placeholder">Humidity: -- %</string>
     <string name="update_humidity_data">Update Humidity Data</string>
 
