@@ -39,14 +39,16 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion '1.5.1'
     }
-    packaging {
+    packagingOptions {
         resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            exclude '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
 }
 
 dependencies {
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.code.gson:gson:2.10'
     implementation "org.jetbrains:annotations:23.0.0"
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'com.github.mik3y:usb-serial-for-android:v3.7.0'

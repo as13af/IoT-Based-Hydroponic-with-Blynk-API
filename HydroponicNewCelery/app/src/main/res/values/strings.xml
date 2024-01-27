@@ -48,11 +48,21 @@
     <string name="button_ph">pH</string>
     <string name="button_sensors">Sensors</string>
 
+    <string name="humidity_label">Humidity</string>
+    <string name="turbidity_label">Turbidity</string>
+    <string name="ph_label">pH</string>
+    <string name="sensors_label">Sensors</string>
+
         <string name="current_humidity">Current Humidity: 50%</string>
         <string name="humidity_icon_description">Humidity Icon</string>
 
         <string name="current_ultrasonic">Ultrasonic Distance: 100 cm</string>
         <string name="ultrasonic_icon_description">Ultrasonic Icon</string>
+
+    <string name="temperature_placeholder">Temperature: N/A</string>
+    <string name="ph_placeholder">pH: N/A</string>
+    <string name="water_level_placeholder">Water Level: N/A</string>
+    <string name="turbidity_placeholder">Turbidity: N/A</string>
 
     <string name="update_humidity">Update Humidity</string>
     <string name="update_temperature">Update Temperature</string>

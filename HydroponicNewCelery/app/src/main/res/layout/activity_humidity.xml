@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Rule 1: Strive for Consistency -->
     <TextView
         android:id="@+id/humidityValueTextView"
         android:layout_width="wrap_content"
@@ -11,6 +12,7 @@
         android:text="@string/humidity_placeholder"
         android:textSize="18sp" />
 
+    <!-- Rule 3: Offer Informative Feedback -->
     <Button
         android:id="@+id/updateHumidityButton"
         android:layout_width="wrap_content"
@@ -19,4 +21,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:text="@string/update_humidity_data" />
+
 </RelativeLayout>
