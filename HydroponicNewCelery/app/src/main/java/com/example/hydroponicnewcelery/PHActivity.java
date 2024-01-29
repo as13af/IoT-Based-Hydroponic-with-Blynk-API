@@ -1,11 +1,16 @@
 package com.example.hydroponicnewcelery;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -31,6 +36,9 @@ public class PHActivity extends AppCompatActivity {
 
     private TextView phValueTextView;
 
+    // Request code for INTERNET permission
+    private static final int INTERNET_PERMISSION_REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,15 +53,21 @@ public class PHActivity extends AppCompatActivity {
         retrieveAndDisplayPhValue();
 
         updatePhButton.setOnClickListener(v -> {
-            // Logic to update the pH value
-            float newPhValue = 7.0f; // Replace with actual pH update logic
-            phValueTextView.setText(String.format(Locale.getDefault(), "pH Value: %.2f", newPhValue));
+            // Check for INTERNET permission before making the network request
+            if (hasInternetPermission()) {
+                // Logic to update the pH value
+                float newPhValue = 7.0f; // Replace with actual pH update logic
+                phValueTextView.setText(String.format(Locale.getDefault(), "pH Value: %.2f", newPhValue));
 
-            // Determine water acidity level and control pumps accordingly
-            handleWaterAcidityLevel(newPhValue);
+                // Determine water acidity level and control pumps accordingly
+                handleWaterAcidityLevel(newPhValue);
 
-            // Send the updated pH value to Blynk
-            sendValueToBlynk(PH_VIRTUAL_PIN, String.valueOf(newPhValue));
+                // Send the updated pH value to Blynk
+                sendValueToBlynk(PH_VIRTUAL_PIN, String.valueOf(newPhValue));
+            } else {
+                // Request INTERNET permission
+                requestInternetPermission();
+            }
         });
 
         acidPumpButton.setOnClickListener(v -> {
@@ -65,6 +79,33 @@ public class PHActivity extends AppCompatActivity {
             // Logic to handle turning on Base Pump
             sendValueToBlynk(BASE_PUMP_VIRTUAL_PIN, "1");
         });
+    }
+
+    // Check if the app has INTERNET permission
+    private boolean hasInternetPermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    // Request INTERNET permission
+    private void requestInternetPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
+    }
+
+    // Handle permission request result
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == INTERNET_PERMISSION_REQUEST_CODE) {
+            // Check if the permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed with the network request
+                retrieveAndDisplayPhValue();
+            } else {
+                // Permission denied, handle accordingly (e.g., show a message)
+                Log.e("Blynk API", "Internet permission denied");
+            }
+        }
     }
 
     private void retrieveAndDisplayPhValue() {

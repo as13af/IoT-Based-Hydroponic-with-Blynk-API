@@ -1,11 +1,16 @@
 package com.example.hydroponicnewcelery;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -30,6 +35,9 @@ public class HumidityActivity extends AppCompatActivity {
 
     private TextView humidityValueTextView;
 
+    // Request code for INTERNET permission
+    private static final int INTERNET_PERMISSION_REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,52 +47,62 @@ public class HumidityActivity extends AppCompatActivity {
         Button updateHumidityButton = findViewById(R.id.updateHumidityButton);
 
         updateHumidityButton.setOnClickListener(v -> {
-            // Retrieve humidity data from Blynk
-            retrieveAndDisplayHumidityValue();
+            // Check for INTERNET permission before making the network request
+            if (hasInternetPermission()) {
+                retrieveAndDisplayHumidityValue();
+            } else {
+                // Request INTERNET permission
+                requestInternetPermission();
+            }
         });
     }
 
     private void retrieveAndDisplayHumidityValue() {
-        OkHttpClient client = new OkHttpClient();
-        String apiUrl = BLYNK_API_BASE_URL + AUTH_TOKEN + "/get/V" + GAUGE_HUMIDITY_VIRTUAL_PIN;
-        Request request = new Request.Builder().url(apiUrl).build();
+        // Check for INTERNET permission before proceeding
+        if (hasInternetPermission()) {
+            OkHttpClient client = new OkHttpClient();
+            String apiUrl = BLYNK_API_BASE_URL + AUTH_TOKEN + "/get/V" + GAUGE_HUMIDITY_VIRTUAL_PIN;
+            Request request = new Request.Builder().url(apiUrl).build();
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) {
-                try {
-                    if (response.isSuccessful()) {
-                        // Handle the successful response
-                        String responseBody = response.body() != null ? response.body().string() : "";
-                        float humidityValue = parseHumidityValue(responseBody);
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) {
+                    try {
+                        if (response.isSuccessful()) {
+                            // Handle the successful response
+                            String responseBody = response.body() != null ? response.body().string() : "";
+                            float humidityValue = parseHumidityValue(responseBody);
 
-                        // Update the UI on the main thread
-                        runOnUiThread(() -> {
-                            humidityValueTextView.setText(String.format(Locale.getDefault(), "Humidity: %.2f %%", humidityValue));
+                            // Update the UI on the main thread
+                            runOnUiThread(() -> {
+                                humidityValueTextView.setText(String.format(Locale.getDefault(), "Humidity: %.2f %%", humidityValue));
 
-                            // Determine humidity status based on the retrieved value
-                            String humidityStatus = getHumidityStatus(humidityValue);
+                                // Determine humidity status based on the retrieved value
+                                String humidityStatus = getHumidityStatus(humidityValue);
 
-                            // Send values to Blynk for Gauge Humidity and Status Humidity
-                            sendValueToBlynk(GAUGE_HUMIDITY_VIRTUAL_PIN, String.valueOf(humidityValue));
-                            sendValueToBlynk(STATUS_HUMIDITY_VIRTUAL_PIN, humidityStatus);
-                        });
-                    } else {
-                        // Handle unsuccessful response
-                        Log.e("Blynk API", "Failed to retrieve humidity value. Response code: " + response.code());
+                                // Send values to Blynk for Gauge Humidity and Status Humidity
+                                sendValueToBlynk(GAUGE_HUMIDITY_VIRTUAL_PIN, String.valueOf(humidityValue));
+                                sendValueToBlynk(STATUS_HUMIDITY_VIRTUAL_PIN, humidityStatus);
+                            });
+                        } else {
+                            // Handle unsuccessful response
+                            Log.e("Blynk API", "Failed to retrieve humidity value. Response code: " + response.code());
+                        }
+                    } catch (IOException e) {
+                        Log.e("Blynk API", "Error reading response", e);
                     }
-                } catch (IOException e) {
-                    Log.e("Blynk API", "Error reading response", e);
                 }
-            }
 
-
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                // Handle failure to connect to the Blynk API
-                Log.e("Blynk API", "Failed to connect to Blynk API", e);
-            }
-        });
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    // Handle failure to connect to the Blynk API
+                    Log.e("Blynk API", "Failed to connect to Blynk API", e);
+                }
+            });
+        } else {
+            // Request INTERNET permission
+            requestInternetPermission();
+        }
     }
 
     private float parseHumidityValue(String responseBody) {
@@ -132,4 +150,32 @@ public class HumidityActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Check if the app has INTERNET permission
+    private boolean hasInternetPermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    // Request INTERNET permission
+    private void requestInternetPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, INTERNET_PERMISSION_REQUEST_CODE);
+    }
+
+    // Handle permission request result
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == INTERNET_PERMISSION_REQUEST_CODE) {
+            // Check if the permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed with the network request
+                retrieveAndDisplayHumidityValue();
+            } else {
+                // Permission denied, handle accordingly (e.g., show a message)
+                Log.e("Blynk API", "Internet permission denied");
+            }
+        }
+    }
 }
+
