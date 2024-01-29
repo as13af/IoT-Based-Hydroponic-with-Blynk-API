@@ -51,7 +51,7 @@ public class HumidityActivity extends AppCompatActivity {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            public void onResponse(@NotNull Call call, @NotNull Response response) {
                 try {
                     if (response.isSuccessful()) {
                         // Handle the successful response
@@ -77,6 +77,7 @@ public class HumidityActivity extends AppCompatActivity {
                     Log.e("Blynk API", "Error reading response", e);
                 }
             }
+
 
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {

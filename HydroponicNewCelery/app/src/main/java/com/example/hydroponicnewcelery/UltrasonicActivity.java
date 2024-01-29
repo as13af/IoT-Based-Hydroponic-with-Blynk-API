@@ -51,7 +51,7 @@ public class UltrasonicActivity extends AppCompatActivity {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            public void onResponse(@NotNull Call call, @NotNull Response response) {
                 try {
                     if (response.isSuccessful()) {
                         // Handle the successful response
