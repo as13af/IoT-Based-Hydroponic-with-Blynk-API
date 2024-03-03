@@ -28,8 +28,8 @@ import okhttp3.Response;
 
 public class PHActivity extends AppCompatActivity {
 
-    private static final String BLYNK_API_BASE_URL = "http://blynk-cloud.com/";
-    private static final String AUTH_TOKEN = "Yv1okzVekidmclcQ0R0LwPnlK087P_TdD";
+    private static final String BLYNK_API_BASE_URL = "https://blynk.cloud/external/api/";
+    private static final String AUTH_TOKEN = "v1okzVekidmclcQ0R0LwPnlK087P_TdD";
     private static final int PH_VIRTUAL_PIN = 0; // Adjust with your Blynk pH virtual pin
     private static final int ACID_PUMP_VIRTUAL_PIN = 2; // Blynk virtual pin for Acid Pump
     private static final int BASE_PUMP_VIRTUAL_PIN = 3; // Blynk virtual pin for Base Pump
@@ -55,6 +55,8 @@ public class PHActivity extends AppCompatActivity {
         updatePhButton.setOnClickListener(v -> {
             // Check for INTERNET permission before making the network request
             if (hasInternetPermission()) {
+                retrieveAndDisplayPhValue();
+                /*
                 // Logic to update the pH value
                 float newPhValue = 7.0f; // Replace with actual pH update logic
                 phValueTextView.setText(String.format(Locale.getDefault(), "pH Value: %.2f", newPhValue));
@@ -64,6 +66,7 @@ public class PHActivity extends AppCompatActivity {
 
                 // Send the updated pH value to Blynk
                 sendValueToBlynk(PH_VIRTUAL_PIN, String.valueOf(newPhValue));
+                 */
             } else {
                 // Request INTERNET permission
                 requestInternetPermission();
@@ -111,7 +114,7 @@ public class PHActivity extends AppCompatActivity {
     private void retrieveAndDisplayPhValue() {
         // Make a GET request to Blynk API to read the pH value
         OkHttpClient client = new OkHttpClient();
-        String apiUrl = BLYNK_API_BASE_URL + AUTH_TOKEN + "/get/V" + PH_VIRTUAL_PIN;
+        String apiUrl = BLYNK_API_BASE_URL + "get?token=" + AUTH_TOKEN + "&V" + PH_VIRTUAL_PIN;
         Request request = new Request.Builder().url(apiUrl).build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -147,11 +150,10 @@ public class PHActivity extends AppCompatActivity {
     }
 
     private float parsePhValue(String responseBody) {
-        // Parse the JSON response to extract the pH value
+        // Parse the response body directly to float
         try {
-            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
-            return jsonObject.get("0").getAsFloat(); // Assuming the pH value is at key "0"
-        } catch (Exception e) {
+            return Float.parseFloat(responseBody);
+        } catch (NumberFormatException e) {
             Log.e("Blynk API", "Error parsing pH value", e);
             return 0.0f;
         }
@@ -159,7 +161,7 @@ public class PHActivity extends AppCompatActivity {
 
     private void sendValueToBlynk(int virtualPin, String value) {
         OkHttpClient client = new OkHttpClient();
-        String apiUrl = BLYNK_API_BASE_URL + AUTH_TOKEN + "/update/V" + virtualPin + "?value=" + value;
+        String apiUrl = BLYNK_API_BASE_URL + "update?token=" + AUTH_TOKEN + "&V" + virtualPin + "=" + value;
         Request request = new Request.Builder().url(apiUrl).build();
 
         client.newCall(request).enqueue(new Callback() {
