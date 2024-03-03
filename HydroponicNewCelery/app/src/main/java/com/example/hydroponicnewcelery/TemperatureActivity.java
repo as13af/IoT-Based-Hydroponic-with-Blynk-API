@@ -1,5 +1,6 @@
 package com.example.hydroponicnewcelery;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,8 +33,8 @@ public class TemperatureActivity extends AppCompatActivity {
     private static final String AUTH_TOKEN = "v1okzVekidmclcQ0R0LwPnlK087P_TdD";
     private static final int GAUGE_TEMPERATURE_VIRTUAL_PIN = 5;
     private static final int STATUS_TEMPERATURE_VIRTUAL_PIN = 6;
-    private static final int GAUGE_WATER_TEMPERATURE_VIRTUAL_PIN = 14;
-    private static final int STATUS_WATER_TEMPERATURE_VIRTUAL_PIN = 10;
+    private static final int GAUGE_WATER_TEMPERATURE_VIRTUAL_PIN = 10;
+    private static final int STATUS_WATER_TEMPERATURE_VIRTUAL_PIN = 14;
     private static final int INTERNET_PERMISSION_REQUEST_CODE = 1;
 
     private TextView temperatureValueTextView;
@@ -101,6 +102,11 @@ public class TemperatureActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             temperatureValueTextView.setText(String.format(Locale.getDefault(), "Temperature: %.2f °C", temperatureValue));
 
+                            // Pass temperature value to MainActivity
+                            Intent intent = new Intent(TemperatureActivity.this, MainActivity.class);
+                            intent.putExtra("TEMPERATURE_VALUE", temperatureValue);
+                            startActivity(intent);
+
                             // Determine temperature status based on the retrieved value
                             String temperatureStatus = getTemperatureStatus(temperatureValue);
 
@@ -141,7 +147,6 @@ public class TemperatureActivity extends AppCompatActivity {
             return 0.0f;
         }
     }
-
 
     private String getTemperatureStatus(float temperatureValue) {
         // Define your logic to determine the status based on the temperature value

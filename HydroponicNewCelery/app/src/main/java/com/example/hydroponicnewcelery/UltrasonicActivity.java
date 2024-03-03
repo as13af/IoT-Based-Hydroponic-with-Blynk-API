@@ -1,6 +1,7 @@
 package com.example.hydroponicnewcelery;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -101,6 +102,11 @@ public class UltrasonicActivity extends AppCompatActivity {
                         // Update the UI on the main thread
                         runOnUiThread(() -> {
                             ultrasonicValueTextView.setText(String.format(Locale.getDefault(), "Ultrasonic: %.2f cm", ultrasonicValue));
+
+                            // Pass ultrasonic value to MainActivity
+                            Intent intent = new Intent(UltrasonicActivity.this, MainActivity.class);
+                            intent.putExtra("ULTRASONIC_VALUE", ultrasonicValue);
+                            startActivity(intent);
 
                             // Determine Water Level Status based on Ultrasonic value
                             String waterLevelStatus = getWaterLevelStatus(ultrasonicValue);

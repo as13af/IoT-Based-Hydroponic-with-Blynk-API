@@ -1,6 +1,7 @@
 package com.example.hydroponicnewcelery;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,8 +56,6 @@ public class PHActivity extends AppCompatActivity {
         updatePhButton.setOnClickListener(v -> {
             // Check for INTERNET permission before making the network request
             if (hasInternetPermission()) {
-                retrieveAndDisplayPhValue();
-                /*
                 // Logic to update the pH value
                 float newPhValue = 7.0f; // Replace with actual pH update logic
                 phValueTextView.setText(String.format(Locale.getDefault(), "pH Value: %.2f", newPhValue));
@@ -66,7 +65,6 @@ public class PHActivity extends AppCompatActivity {
 
                 // Send the updated pH value to Blynk
                 sendValueToBlynk(PH_VIRTUAL_PIN, String.valueOf(newPhValue));
-                 */
             } else {
                 // Request INTERNET permission
                 requestInternetPermission();
@@ -129,6 +127,12 @@ public class PHActivity extends AppCompatActivity {
                         // Update the UI on the main thread
                         runOnUiThread(() -> {
                             phValueTextView.setText(String.format(Locale.getDefault(), "pH Value: %.2f", phValue));
+
+                            // Pass pH value to MainActivity
+                            Intent intent = new Intent(PHActivity.this, MainActivity.class);
+                            intent.putExtra("PH_VALUE", phValue);
+                            startActivity(intent);
+
                             // Determine water acidity level and control pumps accordingly
                             handleWaterAcidityLevel(phValue);
                         });
@@ -149,6 +153,7 @@ public class PHActivity extends AppCompatActivity {
         });
     }
 
+
     private float parsePhValue(String responseBody) {
         // Parse the response body directly to float
         try {
@@ -158,6 +163,7 @@ public class PHActivity extends AppCompatActivity {
             return 0.0f;
         }
     }
+
 
     private void sendValueToBlynk(int virtualPin, String value) {
         OkHttpClient client = new OkHttpClient();

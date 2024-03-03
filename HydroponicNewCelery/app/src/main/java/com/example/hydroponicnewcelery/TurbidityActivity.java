@@ -1,6 +1,7 @@
 package com.example.hydroponicnewcelery;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -102,6 +103,11 @@ public class TurbidityActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             turbidityValueTextView.setText(String.format(Locale.getDefault(), "Turbidity: %.2f RPM", turbidityValue));
 
+                            // Pass turbidity value to MainActivity
+                            Intent intent = new Intent(TurbidityActivity.this, MainActivity.class);
+                            intent.putExtra("TURBIDITY_VALUE", turbidityValue);
+                            startActivity(intent);
+
                             // Determine turbidity status based on the retrieved value
                             String turbidityStatus = getTurbidityStatus(turbidityValue);
 
@@ -126,6 +132,7 @@ public class TurbidityActivity extends AppCompatActivity {
         });
     }
 
+
     private float parseTurbidityValue(String responseBody) {
         // Parse the response body directly to float
         try {
@@ -135,7 +142,6 @@ public class TurbidityActivity extends AppCompatActivity {
             return 0.0f;
         }
     }
-
 
     private String getTurbidityStatus(float turbidityValue) {
         // Define your logic to determine the status based on the turbidity value

@@ -1,6 +1,7 @@
 package com.example.hydroponicnewcelery;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,7 +57,6 @@ public class HumidityActivity extends AppCompatActivity {
             }
         });
     }
-
     private void retrieveAndDisplayHumidityValue() {
         // Check for INTERNET permission before proceeding
         if (hasInternetPermission()) {
@@ -76,6 +76,11 @@ public class HumidityActivity extends AppCompatActivity {
                             // Update the UI on the main thread
                             runOnUiThread(() -> {
                                 humidityValueTextView.setText(String.format(Locale.getDefault(), "Humidity: %.2f %%", humidityValue));
+
+                                // Pass humidity value to MainActivity
+                                Intent intent = new Intent(HumidityActivity.this, MainActivity.class);
+                                intent.putExtra("HUMIDITY_VALUE", humidityValue);
+                                startActivity(intent);
 
                                 // Determine humidity status based on the retrieved value
                                 String humidityStatus = getHumidityStatus(humidityValue);
