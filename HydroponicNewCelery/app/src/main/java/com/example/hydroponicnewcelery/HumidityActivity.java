@@ -28,8 +28,8 @@ import okhttp3.Response;
 
 public class HumidityActivity extends AppCompatActivity {
 
-    private static final String BLYNK_API_BASE_URL = "http://blynk-cloud.com/";
-    private static final String AUTH_TOKEN = "Yv1okzVekidmclcQ0R0LwPnlK087P_TdD";
+    private static final String BLYNK_API_BASE_URL = "https://blynk.cloud/external/api/";
+    private static final String AUTH_TOKEN = "v1okzVekidmclcQ0R0LwPnlK087P_TdD";
     private static final int GAUGE_HUMIDITY_VIRTUAL_PIN = 4;
     private static final int STATUS_HUMIDITY_VIRTUAL_PIN = 9;
 
@@ -61,7 +61,7 @@ public class HumidityActivity extends AppCompatActivity {
         // Check for INTERNET permission before proceeding
         if (hasInternetPermission()) {
             OkHttpClient client = new OkHttpClient();
-            String apiUrl = BLYNK_API_BASE_URL + AUTH_TOKEN + "/get/V" + GAUGE_HUMIDITY_VIRTUAL_PIN;
+            String apiUrl = BLYNK_API_BASE_URL + "get?token=" + AUTH_TOKEN + "&V" + GAUGE_HUMIDITY_VIRTUAL_PIN;
             Request request = new Request.Builder().url(apiUrl).build();
 
             client.newCall(request).enqueue(new Callback() {
@@ -129,7 +129,7 @@ public class HumidityActivity extends AppCompatActivity {
 
     private void sendValueToBlynk(int virtualPin, String value) {
         OkHttpClient client = new OkHttpClient();
-        String apiUrl = BLYNK_API_BASE_URL + AUTH_TOKEN + "/update/V" + virtualPin + "?value=" + value;
+        String apiUrl = BLYNK_API_BASE_URL + "update?token=" + AUTH_TOKEN + "&V" + virtualPin + "=" + value;
         Request request = new Request.Builder().url(apiUrl).build();
 
         client.newCall(request).enqueue(new Callback() {

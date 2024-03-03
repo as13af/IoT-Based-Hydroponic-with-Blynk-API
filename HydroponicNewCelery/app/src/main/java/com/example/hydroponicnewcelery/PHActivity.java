@@ -28,8 +28,8 @@ import okhttp3.Response;
 
 public class PHActivity extends AppCompatActivity {
 
-    private static final String BLYNK_API_BASE_URL = "http://blynk-cloud.com/";
-    private static final String AUTH_TOKEN = "Yv1okzVekidmclcQ0R0LwPnlK087P_TdD";
+    private static final String BLYNK_API_BASE_URL = "https://blynk.cloud/external/api/";
+    private static final String AUTH_TOKEN = "v1okzVekidmclcQ0R0LwPnlK087P_TdD";
     private static final int PH_VIRTUAL_PIN = 0; // Adjust with your Blynk pH virtual pin
     private static final int ACID_PUMP_VIRTUAL_PIN = 2; // Blynk virtual pin for Acid Pump
     private static final int BASE_PUMP_VIRTUAL_PIN = 3; // Blynk virtual pin for Base Pump
@@ -111,7 +111,7 @@ public class PHActivity extends AppCompatActivity {
     private void retrieveAndDisplayPhValue() {
         // Make a GET request to Blynk API to read the pH value
         OkHttpClient client = new OkHttpClient();
-        String apiUrl = BLYNK_API_BASE_URL + AUTH_TOKEN + "/get/V" + PH_VIRTUAL_PIN;
+        String apiUrl = BLYNK_API_BASE_URL + "get?token=" + AUTH_TOKEN + "&V" + PH_VIRTUAL_PIN;
         Request request = new Request.Builder().url(apiUrl).build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -159,7 +159,7 @@ public class PHActivity extends AppCompatActivity {
 
     private void sendValueToBlynk(int virtualPin, String value) {
         OkHttpClient client = new OkHttpClient();
-        String apiUrl = BLYNK_API_BASE_URL + AUTH_TOKEN + "/update/V" + virtualPin + "?value=" + value;
+        String apiUrl = BLYNK_API_BASE_URL + "update?token=" + AUTH_TOKEN + "&V" + virtualPin + "=" + value;
         Request request = new Request.Builder().url(apiUrl).build();
 
         client.newCall(request).enqueue(new Callback() {

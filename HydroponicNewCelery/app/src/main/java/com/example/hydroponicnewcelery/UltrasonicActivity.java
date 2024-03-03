@@ -30,8 +30,8 @@ import okhttp3.Response;
 
 public class UltrasonicActivity extends AppCompatActivity {
 
-    private static final String BLYNK_API_BASE_URL = "http://blynk-cloud.com/";
-    private static final String AUTH_TOKEN = "Yv1okzVekidmclcQ0R0LwPnlK087P_TdD";
+    private static final String BLYNK_API_BASE_URL = "http://blynk.cloud/external/api/";
+    private static final String AUTH_TOKEN = "v1okzVekidmclcQ0R0LwPnlK087P_TdD";
     private static final int ULTRASONIC_VIRTUAL_PIN = 13;
     private static final int WATER_LEVEL_STATUS_VIRTUAL_PIN = 10;
     private static final int INTERNET_PERMISSION_REQUEST_CODE = 1;
@@ -86,7 +86,7 @@ public class UltrasonicActivity extends AppCompatActivity {
 
     private void retrieveAndDisplayUltrasonicValue() {
         OkHttpClient client = new OkHttpClient();
-        String apiUrl = BLYNK_API_BASE_URL + AUTH_TOKEN + "/get/V" + ULTRASONIC_VIRTUAL_PIN;
+        String apiUrl = BLYNK_API_BASE_URL + "get?token=" + AUTH_TOKEN + "&V" + ULTRASONIC_VIRTUAL_PIN;
         Request request = new Request.Builder().url(apiUrl).build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -149,7 +149,7 @@ public class UltrasonicActivity extends AppCompatActivity {
 
     private void sendValueToBlynk(int virtualPin, String value) {
         OkHttpClient client = new OkHttpClient();
-        String apiUrl = BLYNK_API_BASE_URL + AUTH_TOKEN + "/update/V" + virtualPin + "?value=" + value;
+        String apiUrl = BLYNK_API_BASE_URL + "update?token=" + AUTH_TOKEN + "&V" + virtualPin + "=" + value;
         Request request = new Request.Builder().url(apiUrl).build();
 
         client.newCall(request).enqueue(new Callback() {
