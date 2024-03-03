@@ -106,11 +106,10 @@ public class HumidityActivity extends AppCompatActivity {
     }
 
     private float parseHumidityValue(String responseBody) {
-        // Parse the JSON response to extract the humidity value
+        // Parse the response body directly to float
         try {
-            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
-            return jsonObject.get("0").getAsFloat(); // Assuming the humidity value is at key "0"
-        } catch (Exception e) {
+            return Float.parseFloat(responseBody);
+        } catch (NumberFormatException e) {
             Log.e("Blynk API", "Error parsing humidity value", e);
             return 0.0f;
         }

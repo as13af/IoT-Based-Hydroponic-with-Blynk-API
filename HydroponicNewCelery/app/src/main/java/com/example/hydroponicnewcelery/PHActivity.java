@@ -55,6 +55,8 @@ public class PHActivity extends AppCompatActivity {
         updatePhButton.setOnClickListener(v -> {
             // Check for INTERNET permission before making the network request
             if (hasInternetPermission()) {
+                retrieveAndDisplayPhValue();
+                /*
                 // Logic to update the pH value
                 float newPhValue = 7.0f; // Replace with actual pH update logic
                 phValueTextView.setText(String.format(Locale.getDefault(), "pH Value: %.2f", newPhValue));
@@ -64,6 +66,7 @@ public class PHActivity extends AppCompatActivity {
 
                 // Send the updated pH value to Blynk
                 sendValueToBlynk(PH_VIRTUAL_PIN, String.valueOf(newPhValue));
+                 */
             } else {
                 // Request INTERNET permission
                 requestInternetPermission();
@@ -147,11 +150,10 @@ public class PHActivity extends AppCompatActivity {
     }
 
     private float parsePhValue(String responseBody) {
-        // Parse the JSON response to extract the pH value
+        // Parse the response body directly to float
         try {
-            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
-            return jsonObject.get("0").getAsFloat(); // Assuming the pH value is at key "0"
-        } catch (Exception e) {
+            return Float.parseFloat(responseBody);
+        } catch (NumberFormatException e) {
             Log.e("Blynk API", "Error parsing pH value", e);
             return 0.0f;
         }

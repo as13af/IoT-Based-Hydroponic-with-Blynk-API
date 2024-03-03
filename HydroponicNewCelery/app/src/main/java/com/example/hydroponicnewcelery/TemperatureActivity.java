@@ -133,15 +133,15 @@ public class TemperatureActivity extends AppCompatActivity {
     }
 
     private float parseTemperatureValue(String responseBody) {
-        // Parse the JSON response to extract the temperature value
+        // Parse the response body directly to float
         try {
-            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
-            return jsonObject.get("0").getAsFloat(); // Assuming the temperature value is at key "0"
-        } catch (Exception e) {
+            return Float.parseFloat(responseBody);
+        } catch (NumberFormatException e) {
             Log.e("Blynk API", "Error parsing temperature value", e);
             return 0.0f;
         }
     }
+
 
     private String getTemperatureStatus(float temperatureValue) {
         // Define your logic to determine the status based on the temperature value

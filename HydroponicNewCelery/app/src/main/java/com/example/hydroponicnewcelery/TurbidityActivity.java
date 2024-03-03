@@ -30,9 +30,9 @@ import okhttp3.Response;
 
 public class TurbidityActivity extends AppCompatActivity {
 
-    private static final String BLYNK_API_BASE_URL = "http://blynk.cloud/external/api";
+    private static final String BLYNK_API_BASE_URL = "https://blynk.cloud/external/api/";
     private static final String AUTH_TOKEN = "v1okzVekidmclcQ0R0LwPnlK087P_TdD";
-    private static final int GAUGE_TURBIDITY_VIRTUAL_PIN = 6;
+    private static final int GAUGE_TURBIDITY_VIRTUAL_PIN = 1;
     private static final int STATUS_TURBIDITY_VIRTUAL_PIN = 11;
     private static final int INTERNET_PERMISSION_REQUEST_CODE = 1;
 
@@ -127,15 +127,15 @@ public class TurbidityActivity extends AppCompatActivity {
     }
 
     private float parseTurbidityValue(String responseBody) {
-        // Parse the JSON response to extract the turbidity value
+        // Parse the response body directly to float
         try {
-            JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
-            return jsonObject.get("0").getAsFloat(); // Assuming the turbidity value is at key "0"
-        } catch (Exception e) {
+            return Float.parseFloat(responseBody);
+        } catch (NumberFormatException e) {
             Log.e("Blynk API", "Error parsing turbidity value", e);
             return 0.0f;
         }
     }
+
 
     private String getTurbidityStatus(float turbidityValue) {
         // Define your logic to determine the status based on the turbidity value
