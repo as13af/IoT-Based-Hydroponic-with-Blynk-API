@@ -6,7 +6,8 @@
 
     <!-- Include the common base layout -->
     <include layout="@layout/activity_base" />
-    <!-- Rule 1: Strive for Consistency -->
+
+    <!-- pH Value TextView -->
     <TextView
         android:id="@+id/phValueTextView"
         android:layout_width="wrap_content"
@@ -15,7 +16,7 @@
         android:text="@string/ph_value_placeholder"
         android:textSize="18sp" />
 
-    <!-- Rule 3: Offer Informative Feedback -->
+    <!-- Update pH Button -->
     <Button
         android:id="@+id/updatePhButton"
         android:layout_width="wrap_content"
@@ -25,23 +26,25 @@
         android:layout_marginTop="16dp"
         android:text="@string/update_ph_data_button" />
 
-    <!-- Rule 6: Permit Easy Reversal of Actions -->
-    <Button
+    <!-- Acid Pump Toggle Button -->
+    <ToggleButton
         android:id="@+id/acidPumpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/updatePhButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="@string/turn_on_acid_pump" />
+        android:textOn="@string/turn_off_acid_pump"
+        android:textOff="@string/turn_on_acid_pump" />
 
-    <!-- Rule 6: Permit Easy Reversal of Actions -->
-    <Button
+    <!-- Base Pump Toggle Button -->
+    <ToggleButton
         android:id="@+id/basePumpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/acidPumpButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="@string/turn_on_base_pump" />
+        android:textOn="@string/turn_off_base_pump"
+        android:textOff="@string/turn_on_base_pump" />
 </RelativeLayout>
