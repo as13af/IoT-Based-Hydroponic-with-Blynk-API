@@ -42,8 +42,8 @@
 
 
 
-    <string name="turn_on_acid_pump">Turn On AB Mix Pump</string>
-    <string name="turn_on_base_pump">Turn On Water Intake Pump</string>
+    <string name="turn_on_acid_pump">Turn On Main Pump</string>
+    <string name="turn_on_base_pump">Turn On UV Light</string>
 
 
     <string name="button_update_temperature_status">Update Temperature Status</string>

@@ -32,8 +32,8 @@ public class PHActivity extends AppCompatActivity {
     private static final String BLYNK_API_BASE_URL = "https://blynk.cloud/external/api/";
     private static final String AUTH_TOKEN = "v1okzVekidmclcQ0R0LwPnlK087P_TdD";
     private static final int PH_VIRTUAL_PIN = 0; // Adjust with your Blynk pH virtual pin
-    private static final int ACID_PUMP_VIRTUAL_PIN = 2; // Blynk virtual pin for Acid Pump
-    private static final int BASE_PUMP_VIRTUAL_PIN = 3; // Blynk virtual pin for Base Pump
+    private static final int ACID_PUMP_VIRTUAL_PIN = 8; // Blynk virtual pin for Acid Pump
+    private static final int BASE_PUMP_VIRTUAL_PIN = 7; // Blynk virtual pin for Base Pump
 
     private TextView phValueTextView;
 
