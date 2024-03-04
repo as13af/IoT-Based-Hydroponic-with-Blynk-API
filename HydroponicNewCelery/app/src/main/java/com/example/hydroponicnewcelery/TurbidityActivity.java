@@ -96,9 +96,10 @@ public class TurbidityActivity extends AppCompatActivity {
                             turbidityValueTextView.setText(String.format(Locale.getDefault(), "Turbidity: %.2f RPM", turbidityValue));
 
                             // Pass turbidity value to MainActivity
-                            Intent intent = new Intent(TurbidityActivity.this, MainActivity.class);
-                            intent.putExtra("TURBIDITY_VALUE", turbidityValue);
-                            startActivity(intent);
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra("TURBIDITY_VALUE", turbidityValue);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
 
                             // Determine turbidity status based on the retrieved value
                             String turbidityStatus = getTurbidityStatus(turbidityValue);
@@ -123,6 +124,7 @@ public class TurbidityActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private float parseTurbidityValue(String responseBody) {
         // Parse the response body directly to float

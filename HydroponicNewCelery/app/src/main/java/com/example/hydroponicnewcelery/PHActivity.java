@@ -117,9 +117,10 @@ public class PHActivity extends AppCompatActivity {
                             phValueTextView.setText(String.format(Locale.getDefault(), "pH Value: %.2f", phValue));
 
                             // Pass pH value to MainActivity
-                            Intent intent = new Intent(PHActivity.this, MainActivity.class);
-                            intent.putExtra("PH_VALUE", phValue);
-                            startActivity(intent);
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra("PH_VALUE", phValue);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
 
                             // Determine water acidity level and control pumps accordingly
                             handleWaterAcidityLevel(phValue);
@@ -140,6 +141,7 @@ public class PHActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private float parsePhValue(String responseBody) {
         // Parse the response body directly to float

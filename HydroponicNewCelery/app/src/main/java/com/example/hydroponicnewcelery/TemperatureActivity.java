@@ -90,9 +90,12 @@ public class TemperatureActivity extends AppCompatActivity {
                             temperatureValueTextView.setText(String.format(Locale.getDefault(), "Temperature: %.2f °C", temperatureValue));
 
                             // Pass temperature value to MainActivity
-                            Intent intent = new Intent(TemperatureActivity.this, MainActivity.class);
+                            Intent intent = new Intent();
                             intent.putExtra("TEMPERATURE_VALUE", temperatureValue);
-                            startActivity(intent);
+                            setResult(RESULT_OK, intent);
+
+                            // Finish the activity
+                            finish();
 
                             // Determine temperature status based on the retrieved value
                             String temperatureStatus = getTemperatureStatus(temperatureValue);
@@ -124,6 +127,7 @@ public class TemperatureActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private float parseTemperatureValue(String responseBody) {
         // Parse the response body directly to float

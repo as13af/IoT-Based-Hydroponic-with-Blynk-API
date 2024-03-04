@@ -96,9 +96,10 @@ public class UltrasonicActivity extends AppCompatActivity {
                             ultrasonicValueTextView.setText(String.format(Locale.getDefault(), "Ultrasonic: %.2f cm", ultrasonicValue));
 
                             // Pass ultrasonic value to MainActivity
-                            Intent intent = new Intent(UltrasonicActivity.this, MainActivity.class);
-                            intent.putExtra("ULTRASONIC_VALUE", ultrasonicValue);
-                            startActivity(intent);
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra("ULTRASONIC_VALUE", ultrasonicValue);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
 
                             // Determine Water Level Status based on Ultrasonic value
                             String waterLevelStatus = getWaterLevelStatus(ultrasonicValue);
@@ -122,6 +123,7 @@ public class UltrasonicActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private float parseUltrasonicValue(String responseBody) {
         // Parse the response body directly to float

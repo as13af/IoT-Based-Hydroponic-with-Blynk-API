@@ -76,9 +76,10 @@ public class HumidityActivity extends AppCompatActivity {
                             humidityValueTextView.setText(String.format(Locale.getDefault(), "Humidity: %.2f %%", humidityValue));
 
                             // Pass humidity value to MainActivity
-                            Intent intent = new Intent(HumidityActivity.this, MainActivity.class);
-                            intent.putExtra("HUMIDITY_VALUE", humidityValue);
-                            startActivity(intent);
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra("HUMIDITY_VALUE", humidityValue);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
 
                             // Determine humidity status based on the retrieved value
                             String humidityStatus = getHumidityStatus(humidityValue);
@@ -101,6 +102,7 @@ public class HumidityActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private float parseHumidityValue(String responseBody) {
         // Parse the response body directly to float

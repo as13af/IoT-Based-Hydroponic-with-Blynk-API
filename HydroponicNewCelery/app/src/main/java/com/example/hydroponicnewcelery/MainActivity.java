@@ -6,8 +6,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Locale;
 
@@ -19,40 +17,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView waterLevelTextView;
     private TextView turbidityTextView;
 
-    private final ActivityResultLauncher<Intent> temperatureLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-            float value = result.getData().getFloatExtra("VALUE", 0.0f);
-            temperatureTextView.setText(String.format(Locale.getDefault(), "Temperature: %.2f", value));
-        }
-    });
-
-    private final ActivityResultLauncher<Intent> phLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-            float value = result.getData().getFloatExtra("VALUE", 0.0f);
-            phTextView.setText(String.format(Locale.getDefault(), "pH: %.2f", value));
-        }
-    });
-
-    private final ActivityResultLauncher<Intent> humidityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-            float value = result.getData().getFloatExtra("VALUE", 0.0f);
-            humidityTextView.setText(String.format(Locale.getDefault(), "Humidity: %.2f", value));
-        }
-    });
-
-    private final ActivityResultLauncher<Intent> waterLevelLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-            float value = result.getData().getFloatExtra("VALUE", 0.0f);
-            waterLevelTextView.setText(String.format(Locale.getDefault(), "Water Level: %.2f", value));
-        }
-    });
-
-    private final ActivityResultLauncher<Intent> turbidityLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-            float value = result.getData().getFloatExtra("VALUE", 0.0f);
-            turbidityTextView.setText(String.format(Locale.getDefault(), "Turbidity: %.2f", value));
-        }
-    });
+    private static final int REQUEST_CODE_TEMPERATURE = 1;
+    private static final int REQUEST_CODE_PH = 2;
+    private static final int REQUEST_CODE_HUMIDITY = 3;
+    private static final int REQUEST_CODE_WATER_LEVEL = 4;
+    private static final int REQUEST_CODE_TURBIDITY = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,34 +36,59 @@ public class MainActivity extends AppCompatActivity {
         turbidityTextView = findViewById(R.id.TurbidityValueTextView);
 
         Button temperatureButton = findViewById(R.id.temperatureButton);
-        temperatureButton.setOnClickListener(view -> temperatureLauncher.launch(new Intent(MainActivity.this, TemperatureActivity.class)));
+        temperatureButton.setOnClickListener(view -> startActivityForResult(new Intent(MainActivity.this, TemperatureActivity.class), REQUEST_CODE_TEMPERATURE));
 
         Button phButton = findViewById(R.id.phButton);
-        phButton.setOnClickListener(view -> phLauncher.launch(new Intent(MainActivity.this, PHActivity.class)));
+        phButton.setOnClickListener(view -> startActivityForResult(new Intent(MainActivity.this, PHActivity.class), REQUEST_CODE_PH));
 
         Button humidityButton = findViewById(R.id.humidityButton);
-        humidityButton.setOnClickListener(view -> humidityLauncher.launch(new Intent(MainActivity.this, HumidityActivity.class)));
+        humidityButton.setOnClickListener(view -> startActivityForResult(new Intent(MainActivity.this, HumidityActivity.class), REQUEST_CODE_HUMIDITY));
 
         Button waterLevelButton = findViewById(R.id.waterLevelButton);
-        waterLevelButton.setOnClickListener(view -> waterLevelLauncher.launch(new Intent(MainActivity.this, UltrasonicActivity.class)));
+        waterLevelButton.setOnClickListener(view -> startActivityForResult(new Intent(MainActivity.this, UltrasonicActivity.class), REQUEST_CODE_WATER_LEVEL));
 
         Button turbidityButton = findViewById(R.id.turbidityButton);
-        turbidityButton.setOnClickListener(view -> turbidityLauncher.launch(new Intent(MainActivity.this, TurbidityActivity.class)));
+        turbidityButton.setOnClickListener(view -> startActivityForResult(new Intent(MainActivity.this, TurbidityActivity.class), REQUEST_CODE_TURBIDITY));
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_temperature) {
-                temperatureLauncher.launch(new Intent(MainActivity.this, TemperatureActivity.class));
+                startActivityForResult(new Intent(MainActivity.this, TemperatureActivity.class), REQUEST_CODE_TEMPERATURE);
                 return true;
             } else if (itemId == R.id.action_ph) {
-                phLauncher.launch(new Intent(MainActivity.this, PHActivity.class));
+                startActivityForResult(new Intent(MainActivity.this, PHActivity.class), REQUEST_CODE_PH);
                 return true;
             } else if (itemId == R.id.action_humidity) {
-                humidityLauncher.launch(new Intent(MainActivity.this, HumidityActivity.class));
+                startActivityForResult(new Intent(MainActivity.this, HumidityActivity.class), REQUEST_CODE_HUMIDITY);
                 return true;
             }
             return false;
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            float value = data.getFloatExtra("VALUE", 0.0f);
+            switch (requestCode) {
+                case REQUEST_CODE_TEMPERATURE:
+                    temperatureTextView.setText(String.format(Locale.getDefault(), "Temperature: %.2f", value));
+                    break;
+                case REQUEST_CODE_PH:
+                    phTextView.setText(String.format(Locale.getDefault(), "pH: %.2f", value));
+                    break;
+                case REQUEST_CODE_HUMIDITY:
+                    humidityTextView.setText(String.format(Locale.getDefault(), "Humidity: %.2f", value));
+                    break;
+                case REQUEST_CODE_WATER_LEVEL:
+                    waterLevelTextView.setText(String.format(Locale.getDefault(), "Water Level: %.2f", value));
+                    break;
+                case REQUEST_CODE_TURBIDITY:
+                    turbidityTextView.setText(String.format(Locale.getDefault(), "Turbidity: %.2f", value));
+                    break;
+            }
+        }
     }
 }
