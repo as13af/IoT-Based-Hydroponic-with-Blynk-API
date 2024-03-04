@@ -3,10 +3,8 @@ package com.example.hydroponicnewcelery;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,9 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,18 +40,15 @@ public class UltrasonicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ultrasonic);
 
         ultrasonicValueTextView = findViewById(R.id.ultrasonicValueTextView);
-        Button updateUltrasonicButton = findViewById(R.id.updateUltrasonicButton);
 
-        updateUltrasonicButton.setOnClickListener(v -> {
-            // Check for internet permission before making the request
-            if (checkInternetPermission()) {
-                // Retrieve ultrasonic data from Blynk
-                retrieveAndDisplayUltrasonicValue();
-            } else {
-                // Request internet permission
-                requestInternetPermission();
-            }
-        });
+        // Check for internet permission before making the request
+        if (checkInternetPermission()) {
+            // Retrieve ultrasonic data from Blynk
+            retrieveAndDisplayUltrasonicValue();
+        } else {
+            // Request internet permission
+            requestInternetPermission();
+        }
     }
 
     private boolean checkInternetPermission() {

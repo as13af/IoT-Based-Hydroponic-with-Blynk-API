@@ -13,11 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.util.Locale;
 
@@ -46,7 +41,6 @@ public class PHActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ph);
 
         phValueTextView = findViewById(R.id.phValueTextView);
-        Button updatePhButton = findViewById(R.id.updatePhButton);
         Button acidPumpButton = findViewById(R.id.acidPumpButton);
         Button basePumpButton = findViewById(R.id.basePumpButton);
         Button acidoffPumpButton = findViewById(R.id.acidoffPumpButton);
@@ -55,31 +49,13 @@ public class PHActivity extends AppCompatActivity {
         // Retrieve and display the current pH value from Blynk
         retrieveAndDisplayPhValue();
 
-        updatePhButton.setOnClickListener(v -> {
-            // Check for INTERNET permission before making the network request
-            if (hasInternetPermission()) {
-                // Logic to update the pH value
-                float newPhValue = 7.0f; // Replace with actual pH update logic
-                phValueTextView.setText(String.format(Locale.getDefault(), "pH Value: %.2f", newPhValue));
-
-                // Determine water acidity level and control pumps accordingly
-                handleWaterAcidityLevel(newPhValue);
-
-                // Send the updated pH value to Blynk
-                sendValueToBlynk(PH_VIRTUAL_PIN, String.valueOf(newPhValue));
-            } else {
-                // Request INTERNET permission
-                requestInternetPermission();
-            }
-        });
-
         acidPumpButton.setOnClickListener(v -> {
             // Logic to handle turning on Acid Pump
             sendValueToBlynk(ACID_PUMP_VIRTUAL_PIN, "1");
         });
 
         acidoffPumpButton.setOnClickListener(v -> {
-            // Logic to handle turning on Acid Pump
+            // Logic to handle turning off Acid Pump
             sendValueToBlynk(ACID_PUMP_VIRTUAL_PIN, "0");
         });
 
@@ -89,7 +65,7 @@ public class PHActivity extends AppCompatActivity {
         });
 
         baseoffPumpButton.setOnClickListener(v -> {
-            // Logic to handle turning on Base Pump
+            // Logic to handle turning off Base Pump
             sendValueToBlynk(BASE_PUMP_VIRTUAL_PIN, "0");
         });
     }
@@ -129,7 +105,7 @@ public class PHActivity extends AppCompatActivity {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 try {
                     if (response.isSuccessful()) {
                         // Handle the successful response
@@ -158,13 +134,12 @@ public class PHActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 // Handle failure to connect to the Blynk API
                 Log.e("Blynk API", "Failed to connect to Blynk API", e);
             }
         });
     }
-
 
     private float parsePhValue(String responseBody) {
         // Parse the response body directly to float
@@ -176,7 +151,6 @@ public class PHActivity extends AppCompatActivity {
         }
     }
 
-
     private void sendValueToBlynk(int virtualPin, String value) {
         OkHttpClient client = new OkHttpClient();
         String apiUrl = BLYNK_API_BASE_URL + "update?token=" + AUTH_TOKEN + "&V" + virtualPin + "=" + value;
@@ -184,7 +158,7 @@ public class PHActivity extends AppCompatActivity {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 // Handle the Blynk API response
                 if (!response.isSuccessful()) {
                     // Handle unsuccessful response
@@ -194,7 +168,7 @@ public class PHActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 // Handle failure to connect to the Blynk API
                 Log.e("Blynk API", "Failed to connect to Blynk API", e);
             }

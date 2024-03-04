@@ -3,10 +3,8 @@ package com.example.hydroponicnewcelery;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,9 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,18 +40,15 @@ public class TurbidityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_turbidity);
 
         turbidityValueTextView = findViewById(R.id.turbidityValueTextView);
-        Button updateTurbidityButton = findViewById(R.id.updateTurbidityButton);
 
-        updateTurbidityButton.setOnClickListener(v -> {
-            // Check for internet permission before making the request
-            if (checkInternetPermission()) {
-                // Retrieve turbidity data from Blynk
-                retrieveAndDisplayTurbidityValue();
-            } else {
-                // Request internet permission
-                requestInternetPermission();
-            }
-        });
+        // Check for internet permission before making the request
+        if (checkInternetPermission()) {
+            // Retrieve turbidity data from Blynk
+            retrieveAndDisplayTurbidityValue();
+        } else {
+            // Request internet permission
+            requestInternetPermission();
+        }
     }
 
     private boolean checkInternetPermission() {
@@ -131,7 +123,6 @@ public class TurbidityActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private float parseTurbidityValue(String responseBody) {
         // Parse the response body directly to float

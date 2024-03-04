@@ -1,11 +1,10 @@
 package com.example.hydroponicnewcelery;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,13 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -39,49 +37,38 @@ public class TemperatureActivity extends AppCompatActivity {
 
     private TextView temperatureValueTextView;
 
+    private Timer timer;
+    private Handler handler;
+    private Runnable fetchTemperatureRunnable = new Runnable() {
+        @Override
+        public void run() {
+            retrieveAndDisplayTemperatureValue();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temperature);
 
         temperatureValueTextView = findViewById(R.id.temperatureValueTextView);
-        Button updateTemperatureButton = findViewById(R.id.updateTemperatureButton);
 
-        updateTemperatureButton.setOnClickListener(v -> {
-            // Check for INTERNET permission before making the request
-            if (checkInternetPermission()) {
-                // Retrieve temperature data from Blynk
-                retrieveAndDisplayTemperatureValue();
-            } else {
-                // Request INTERNET permission
-                requestInternetPermission();
+        // Initialize Handler
+        handler = new Handler(Looper.getMainLooper());
+
+        // Start fetching data automatically
+        startFetchingData();
+    }
+
+    private void startFetchingData() {
+        // Schedule the task to fetch data every 10 seconds
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(fetchTemperatureRunnable);
             }
-        });
-    }
-
-    private boolean checkInternetPermission() {
-        return ContextCompat.checkSelfPermission(this, android.Manifest.permission.INTERNET)
-                == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestInternetPermission() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{android.Manifest.permission.INTERNET},
-                INTERNET_PERMISSION_REQUEST_CODE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == INTERNET_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, proceed with retrieving data
-                retrieveAndDisplayTemperatureValue();
-            } else {
-                // Permission denied, handle accordingly
-                Log.e("Permission", "INTERNET permission denied");
-            }
-        }
+        }, 0, 10000); // Fetch data every 10 seconds
     }
 
     private void retrieveAndDisplayTemperatureValue() {
@@ -192,5 +179,14 @@ public class TemperatureActivity extends AppCompatActivity {
                 Log.e("Blynk API", "Failed to connect to Blynk API", e);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Cancel the timer when the activity is destroyed
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 }

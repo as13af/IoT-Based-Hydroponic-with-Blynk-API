@@ -45,69 +45,61 @@ public class HumidityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_humidity);
 
         humidityValueTextView = findViewById(R.id.humidityValueTextView);
-        Button updateHumidityButton = findViewById(R.id.updateHumidityButton);
 
-        updateHumidityButton.setOnClickListener(v -> {
-            // Check for INTERNET permission before making the network request
-            if (hasInternetPermission()) {
-                retrieveAndDisplayHumidityValue();
-            } else {
-                // Request INTERNET permission
-                requestInternetPermission();
-            }
-        });
+        // Fetch humidity data from the server automatically when the activity is created
+        fetchDataFromServerForHumidity();
     }
-    private void retrieveAndDisplayHumidityValue() {
-        // Check for INTERNET permission before proceeding
+
+    private void fetchDataFromServerForHumidity() {
+        // Check for INTERNET permission before making the network request
         if (hasInternetPermission()) {
-            OkHttpClient client = new OkHttpClient();
-            String apiUrl = BLYNK_API_BASE_URL + "get?token=" + AUTH_TOKEN + "&V" + GAUGE_HUMIDITY_VIRTUAL_PIN;
-            Request request = new Request.Builder().url(apiUrl).build();
-
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) {
-                    try {
-                        if (response.isSuccessful()) {
-                            // Handle the successful response
-                            String responseBody = response.body() != null ? response.body().string() : "";
-                            float humidityValue = parseHumidityValue(responseBody);
-
-                            // Update the UI on the main thread
-                            runOnUiThread(() -> {
-                                humidityValueTextView.setText(String.format(Locale.getDefault(), "Humidity: %.2f %%", humidityValue));
-
-                                // Pass humidity value to MainActivity
-                                Intent intent = new Intent(HumidityActivity.this, MainActivity.class);
-                                intent.putExtra("HUMIDITY_VALUE", humidityValue);
-                                startActivity(intent);
-
-                                // Determine humidity status based on the retrieved value
-                                String humidityStatus = getHumidityStatus(humidityValue);
-
-                                // Send values to Blynk for Gauge Humidity and Status Humidity
-                                sendValueToBlynk(GAUGE_HUMIDITY_VIRTUAL_PIN, String.valueOf(humidityValue));
-                                sendValueToBlynk(STATUS_HUMIDITY_VIRTUAL_PIN, humidityStatus);
-                            });
-                        } else {
-                            // Handle unsuccessful response
-                            Log.e("Blynk API", "Failed to retrieve humidity value. Response code: " + response.code());
-                        }
-                    } catch (IOException e) {
-                        Log.e("Blynk API", "Error reading response", e);
-                    }
-                }
-
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    // Handle failure to connect to the Blynk API
-                    Log.e("Blynk API", "Failed to connect to Blynk API", e);
-                }
-            });
+            retrieveAndDisplayHumidityValue();
         } else {
-            // Request INTERNET permission
             requestInternetPermission();
         }
+    }
+
+    private void retrieveAndDisplayHumidityValue() {
+        OkHttpClient client = new OkHttpClient();
+        String apiUrl = BLYNK_API_BASE_URL + "get?token=" + AUTH_TOKEN + "&V" + GAUGE_HUMIDITY_VIRTUAL_PIN;
+        Request request = new Request.Builder().url(apiUrl).build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
+                try {
+                    if (response.isSuccessful()) {
+                        String responseBody = response.body() != null ? response.body().string() : "";
+                        float humidityValue = parseHumidityValue(responseBody);
+
+                        runOnUiThread(() -> {
+                            humidityValueTextView.setText(String.format(Locale.getDefault(), "Humidity: %.2f %%", humidityValue));
+
+                            // Pass humidity value to MainActivity
+                            Intent intent = new Intent(HumidityActivity.this, MainActivity.class);
+                            intent.putExtra("HUMIDITY_VALUE", humidityValue);
+                            startActivity(intent);
+
+                            // Determine humidity status based on the retrieved value
+                            String humidityStatus = getHumidityStatus(humidityValue);
+
+                            // Send values to Blynk for Gauge Humidity and Status Humidity
+                            sendValueToBlynk(GAUGE_HUMIDITY_VIRTUAL_PIN, String.valueOf(humidityValue));
+                            sendValueToBlynk(STATUS_HUMIDITY_VIRTUAL_PIN, humidityStatus);
+                        });
+                    } else {
+                        Log.e("Blynk API", "Failed to retrieve humidity value. Response code: " + response.code());
+                    }
+                } catch (IOException e) {
+                    Log.e("Blynk API", "Error reading response", e);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e("Blynk API", "Failed to connect to Blynk API", e);
+            }
+        });
     }
 
     private float parseHumidityValue(String responseBody) {
