@@ -49,6 +49,8 @@ public class PHActivity extends AppCompatActivity {
         Button updatePhButton = findViewById(R.id.updatePhButton);
         Button acidPumpButton = findViewById(R.id.acidPumpButton);
         Button basePumpButton = findViewById(R.id.basePumpButton);
+        Button acidoffPumpButton = findViewById(R.id.acidoffPumpButton);
+        Button baseoffPumpButton = findViewById(R.id.baseoffPumpButton);
 
         // Retrieve and display the current pH value from Blynk
         retrieveAndDisplayPhValue();
@@ -76,9 +78,19 @@ public class PHActivity extends AppCompatActivity {
             sendValueToBlynk(ACID_PUMP_VIRTUAL_PIN, "1");
         });
 
+        acidoffPumpButton.setOnClickListener(v -> {
+            // Logic to handle turning on Acid Pump
+            sendValueToBlynk(ACID_PUMP_VIRTUAL_PIN, "0");
+        });
+
         basePumpButton.setOnClickListener(v -> {
             // Logic to handle turning on Base Pump
             sendValueToBlynk(BASE_PUMP_VIRTUAL_PIN, "1");
+        });
+
+        baseoffPumpButton.setOnClickListener(v -> {
+            // Logic to handle turning on Base Pump
+            sendValueToBlynk(BASE_PUMP_VIRTUAL_PIN, "0");
         });
     }
 

@@ -44,6 +44,8 @@
 
     <string name="turn_on_acid_pump">Turn On Main Pump</string>
     <string name="turn_on_base_pump">Turn On UV Light</string>
+    <string name="turn_off_acid_pump">Turn Off Main Pump</string>
+    <string name="turn_off_base_pump">Turn Off UV Light</string>
 
 
     <string name="button_update_temperature_status">Update Temperature Status</string>

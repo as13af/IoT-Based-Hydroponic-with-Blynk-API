@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_centerInParent="true"
     android:background="#87CEFA">
 
     <!-- Include the common base layout -->
@@ -11,8 +12,9 @@
         android:id="@+id/phValueTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:text="@string/ph_value_placeholder"
+        android:layout_marginTop="250dp"
         android:textSize="18sp" />
 
     <!-- Rule 3: Offer Informative Feedback -->
@@ -35,13 +37,31 @@
         android:layout_marginTop="16dp"
         android:text="@string/turn_on_acid_pump" />
 
-    <!-- Rule 6: Permit Easy Reversal of Actions -->
     <Button
-        android:id="@+id/basePumpButton"
+        android:id="@+id/acidoffPumpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/acidPumpButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
+        android:text="@string/turn_off_acid_pump" />
+
+    <!-- Rule 6: Permit Easy Reversal of Actions -->
+    <Button
+        android:id="@+id/basePumpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/acidoffPumpButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
         android:text="@string/turn_on_base_pump" />
+
+    <Button
+        android:id="@+id/baseoffPumpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/basePumpButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/turn_off_base_pump" />
 </RelativeLayout>
