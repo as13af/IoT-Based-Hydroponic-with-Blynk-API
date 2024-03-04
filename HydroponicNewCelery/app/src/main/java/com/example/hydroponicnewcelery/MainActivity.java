@@ -118,13 +118,13 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_temperature) {
-                temperatureLauncher.launch(new Intent(MainActivity.this, TemperatureActivity.class));
+                startActivity(new Intent(MainActivity.this, TemperatureActivity.class));
                 return true;
             } else if (itemId == R.id.action_ph) {
-                phLauncher.launch(new Intent(MainActivity.this, PHActivity.class));
+                startActivity(new Intent(MainActivity.this, PHActivity.class));
                 return true;
             } else if (itemId == R.id.action_humidity) {
-                humidityLauncher.launch(new Intent(MainActivity.this, HumidityActivity.class));
+                startActivity(new Intent(MainActivity.this, HumidityActivity.class));
                 return true;
             }
             return false;

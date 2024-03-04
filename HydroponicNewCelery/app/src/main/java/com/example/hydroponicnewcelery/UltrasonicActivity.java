@@ -95,12 +95,6 @@ public class UltrasonicActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             ultrasonicValueTextView.setText(String.format(Locale.getDefault(), "Ultrasonic: %.2f cm", ultrasonicValue));
 
-                            // Pass ultrasonic value to MainActivity
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra("ULTRASONIC_VALUE", ultrasonicValue);
-                            setResult(RESULT_OK, resultIntent);
-                            finish();
-
                             // Determine Water Level Status based on Ultrasonic value
                             String waterLevelStatus = getWaterLevelStatus(ultrasonicValue);
 

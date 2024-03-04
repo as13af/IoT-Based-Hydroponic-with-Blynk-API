@@ -60,8 +60,18 @@ public class TemperatureActivity extends AppCompatActivity {
         startFetchingData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Restart fetching data when the activity is resumed
+        startFetchingData();
+    }
+
     private void startFetchingData() {
         // Schedule the task to fetch data every 10 seconds
+        if (timer != null) {
+            timer.cancel();
+        }
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -88,14 +98,6 @@ public class TemperatureActivity extends AppCompatActivity {
                         // Update the UI on the main thread
                         runOnUiThread(() -> {
                             temperatureValueTextView.setText(String.format(Locale.getDefault(), "Temperature: %.2f °C", temperatureValue));
-
-                            // Pass temperature value to MainActivity
-                            Intent intent = new Intent();
-                            intent.putExtra("TEMPERATURE_VALUE", temperatureValue);
-                            setResult(RESULT_OK, intent);
-
-                            // Finish the activity
-                            finish();
 
                             // Determine temperature status based on the retrieved value
                             String temperatureStatus = getTemperatureStatus(temperatureValue);

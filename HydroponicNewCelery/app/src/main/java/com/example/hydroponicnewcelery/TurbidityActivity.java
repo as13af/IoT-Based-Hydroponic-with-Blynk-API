@@ -95,12 +95,6 @@ public class TurbidityActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             turbidityValueTextView.setText(String.format(Locale.getDefault(), "Turbidity: %.2f RPM", turbidityValue));
 
-                            // Pass turbidity value to MainActivity
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra("TURBIDITY_VALUE", turbidityValue);
-                            setResult(RESULT_OK, resultIntent);
-                            finish();
-
                             // Determine turbidity status based on the retrieved value
                             String turbidityStatus = getTurbidityStatus(turbidityValue);
 

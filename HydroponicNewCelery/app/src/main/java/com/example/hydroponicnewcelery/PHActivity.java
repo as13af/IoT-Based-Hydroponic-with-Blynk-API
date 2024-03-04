@@ -46,9 +46,6 @@ public class PHActivity extends AppCompatActivity {
         Button acidoffPumpButton = findViewById(R.id.acidoffPumpButton);
         Button baseoffPumpButton = findViewById(R.id.baseoffPumpButton);
 
-        // Retrieve and display the current pH value from Blynk
-        retrieveAndDisplayPhValue();
-
         acidPumpButton.setOnClickListener(v -> {
             // Logic to handle turning on Acid Pump
             sendValueToBlynk(ACID_PUMP_VIRTUAL_PIN, "1");
@@ -68,6 +65,17 @@ public class PHActivity extends AppCompatActivity {
             // Logic to handle turning off Base Pump
             sendValueToBlynk(BASE_PUMP_VIRTUAL_PIN, "0");
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Retrieve and display the current pH value from Blynk
+        if (hasInternetPermission()) {
+            retrieveAndDisplayPhValue();
+        } else {
+            requestInternetPermission();
+        }
     }
 
     // Check if the app has INTERNET permission
@@ -141,7 +149,6 @@ public class PHActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private float parsePhValue(String responseBody) {
         // Parse the response body directly to float

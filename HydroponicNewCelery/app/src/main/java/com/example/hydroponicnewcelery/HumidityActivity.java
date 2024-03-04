@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,8 +43,11 @@ public class HumidityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_humidity);
 
         humidityValueTextView = findViewById(R.id.humidityValueTextView);
+    }
 
-        // Fetch humidity data from the server automatically when the activity is created
+    @Override
+    protected void onResume() {
+        super.onResume();
         fetchDataFromServerForHumidity();
     }
 
@@ -102,7 +103,6 @@ public class HumidityActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private float parseHumidityValue(String responseBody) {
         // Parse the response body directly to float
@@ -176,4 +176,3 @@ public class HumidityActivity extends AppCompatActivity {
         }
     }
 }
-
