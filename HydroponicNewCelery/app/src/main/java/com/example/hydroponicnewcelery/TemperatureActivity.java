@@ -7,7 +7,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+//import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
